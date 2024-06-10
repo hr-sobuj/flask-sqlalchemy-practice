@@ -16,7 +16,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     profile = db.relationship("Profile", uselist=False, back_populates="user")
-    post = db.relationship("Post", backref="user", lazy=True)
+    posts = db.relationship("Post", backref="user", lazy=True)
 
 
 class Profile(db.Model):
@@ -25,17 +25,25 @@ class Profile(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"), unique=True)
     user = db.relationship("User", uselist=False, back_populates="profile")
 
-
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), unique=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
+    tags=db.relationship('Tag',secondary='tag_table',lazy='subquery',backref=db.backref('posts',lazy=True))
 
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+
+tag_table=db.Table('tag_table',
+    db.Column('post_id',db.Integer,db.ForeignKey('post.id'), primary_key=True),
+    db.Column('tag_id',db.Integer,db.ForeignKey('tag.id'),primary_key=True),
+)
 
 with app.app_context():
+    # db.drop_all()
     db.create_all()
-
 
 @app.route("/")
 def home():
@@ -89,7 +97,6 @@ def get_users():
                 "bio": user.profile.bio,
                 "post": [],
             }
-
             for post in user.post:
                 post_data = {
                     "id": post.id,
@@ -100,13 +107,15 @@ def get_users():
                 user_data['post'].append(post_data)
             user_list.append(user_data)
 
-        return jsonify(user_list), 200
+        return jsonify({
+            "data":user_list
+        }), 200
+    
     except Exception as err:
         return (
             jsonify({"message": "Operation failed!", "Error": f"The Error is {err}"}),
             500,
         )
-
 
 @app.post("/create-post")
 def create_post():
@@ -114,28 +123,53 @@ def create_post():
     username = data.get("username")
     title = data.get("title")
     description = data.get("description")
+    tags_data=data.get("tags",[])
 
-    users = User.query.all()
+    user = User.query.filter_by(name=username).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+    
+    tags=[]
+    for tag_name in tags_data:
+        tag=Tag.query.filter_by(name=tag_name).first()
+        if not tag:
+            tag=Tag(name=tag_name)
+            db.session.add(tag)
+        tags.append(tag)
+    
+    post = Post(title=title, description=description, user=user, tags=tags)
 
-    for user in users:
-        if user.name == username:
-            post = Post(title=title, description=description)
-            post.user = user
+    db.session.add(post)
+    db.session.commit()
 
-            db.session.add(post)
-            db.session.commit()
+    if post.id:
+        return jsonify({"message": "Post added Successfully"}), 201
+    else:
+        return jsonify({"message": "Post creation failed. Some error occurred on database"}), 400
 
-            if post.id is not None:
-                return jsonify({"message": "Post added Successfully"}), 201
-            else:
-                return (
-                    jsonify(
-                        {
-                            "message": "Post creation failed. Some error occurred on database"
-                        }
-                    ),
-                    400,
-                )
+
+
+
+@app.get("/posts")
+def get_posts():
+    try:
+        posts = Post.query.all()
+        print(posts)
+        post_list = []
+        for post in posts:
+            post_data = {
+                "id": post.id,
+                "title": post.title,
+                "description": post.description,
+                "user": post.user.name,
+                "tags": [tag.name for tag in post.tags]
+            }
+            post_list.append(post_data)
+
+        return jsonify({"data": post_list}), 200
+
+    except Exception as err:
+        return jsonify({"message": "Operation failed!", "Error": f"The Error is {err}"}), 500
 
 
 if __name__ == "__main__":
