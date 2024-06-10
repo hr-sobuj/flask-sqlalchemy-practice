@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, g
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
 import bcrypt
 import jwt
 import datetime
+from functools import wraps
 
 
 app = Flask(__name__)
@@ -49,13 +50,34 @@ tag_table=db.Table('tag_table',
 )
 
 with app.app_context():
-    db.drop_all()
     db.create_all()
+
+
+def login_required(func):
+    @wraps(func)
+    def inner_func(*args,**kwargs):
+        token = request.headers.get('Authorization')
+        if not token:
+            return jsonify({"message": "Token is missing"}), 401
+        
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'], algorithms=['HS256'])
+            g.user = User.query.filter_by(email=data['user_email']).first()
+            if not g.user:
+                return jsonify({"message": "User not found"}), 404
+        except jwt.ExpiredSignatureError:
+            return jsonify({"message": "Token is expired"}), 401
+        except jwt.InvalidTokenError:
+            return jsonify({"message": "Invalid token"}), 401
+
+        return func(*args, **kwargs)
+
+
+    return inner_func
 
 @app.route("/")
 def home():
     return "Homepage"
-
 
 @app.post("/create-user")
 def create_user():
@@ -129,6 +151,7 @@ def get_users():
         )
 
 @app.post("/create-post")
+@login_required
 def create_post():
     data = request.json
     username = data.get("username")
@@ -136,10 +159,7 @@ def create_post():
     description = data.get("description")
     tags_data=data.get("tags",[])
 
-    user = User.query.filter_by(name=username).first()
-    if not user:
-        return jsonify({"message": "User not found"}), 404
-    
+    user = g.user
     tags=[]
     for tag_name in tags_data:
         tag=Tag.query.filter_by(name=tag_name).first()
