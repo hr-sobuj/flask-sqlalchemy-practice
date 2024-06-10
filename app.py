@@ -39,7 +39,7 @@ def create_user():
         data=request.json
         name=data.get('name')
         bio=data.get('bio')
-        
+
         user=User(name=name)
         profile=Profile(bio=bio)
         user.profile=profile
@@ -62,8 +62,22 @@ def create_user():
 
 @app.get('/users')
 def get_users():
-    users=User.query.all()
-    return users
+    try:
+        users=User.query.all()
+        user_list=[]
+        for user in users:
+            user_list.append({
+                'id':user.id,
+                'name':user.name,
+                'bio':user.profile.bio
+            })
+        return jsonify(user_list), 200
+    except Exception as err:
+        return jsonify({
+            'message':'Operation failed!',
+            'Error':f"The Error is {err}"
+        }), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)
