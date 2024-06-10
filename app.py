@@ -2,10 +2,14 @@ from flask import Flask, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import SQLAlchemyError
 from dotenv import load_dotenv
+import bcrypt
+import jwt
+import datetime
 
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config["SECRET_KEY"]='asdfasd'
 
 db = SQLAlchemy(app)
 
@@ -15,6 +19,8 @@ load_dotenv()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+    password = db.Column(db.String(200), nullable=False)
     profile = db.relationship("Profile", uselist=False, back_populates="user")
     posts = db.relationship("Post", backref="user", lazy=True)
 
@@ -36,13 +42,14 @@ class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
 
+
 tag_table=db.Table('tag_table',
     db.Column('post_id',db.Integer,db.ForeignKey('post.id'), primary_key=True),
     db.Column('tag_id',db.Integer,db.ForeignKey('tag.id'),primary_key=True),
 )
 
 with app.app_context():
-    # db.drop_all()
+    db.drop_all()
     db.create_all()
 
 @app.route("/")
@@ -56,8 +63,12 @@ def create_user():
         data = request.json
         name = data.get("name")
         bio = data.get("bio")
+        email = data.get("email")
+        password = data.get("password").encode('utf-8')
+        salt=bcrypt.gensalt(rounds=12)
+        hash_pass=bcrypt.hashpw(password,salt);
 
-        user = User(name=name)
+        user = User(name=name,email=email,password=hash_pass)
         profile = Profile(bio=bio)
         user.profile = profile
 
@@ -170,6 +181,32 @@ def get_posts():
 
     except Exception as err:
         return jsonify({"message": "Operation failed!", "Error": f"The Error is {err}"}), 500
+    
+
+@app.post('/login')
+def login():
+    data=request.json
+    email=data.get('email')
+    password=data.get('password').encode('utf-8')
+
+    user=User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"message": "User not found"}), 404
+
+    if bcrypt.checkpw(password, user.password):
+        token = jwt.encode(
+            {
+                'user_email':user.email,
+                'exp':datetime.datetime.utcnow()+datetime.timedelta(hours=1)
+            },
+            app.config['SECRET_KEY'],
+            algorithm='HS256'
+        )
+        return jsonify({"message": "Login successful", "token": token}), 200
+    else:
+        return jsonify({"message": "Invalid credentials"}), 401
+
+
 
 
 if __name__ == "__main__":
