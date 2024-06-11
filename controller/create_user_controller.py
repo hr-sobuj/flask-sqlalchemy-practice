@@ -1,3 +1,14 @@
+from app import app 
+from middleware.login_required import login_required
+from flask import request,jsonify
+from model.users import User
+from model.profiles_model import Profile
+import bcrypt
+from db.db import db
+from others.mailer import mail
+from flask_mail import Message
+from sqlalchemy.exc import SQLAlchemyError
+
 @app.post("/create-user")
 def create_user():
     try:

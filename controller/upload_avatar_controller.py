@@ -1,3 +1,10 @@
+from app import app 
+from middleware.login_required import login_required
+from flask import request,jsonify
+from db.db import db
+import datetime
+from .custom_error import custom_error
+import os
 
 @app.patch("/avatar")
 @login_required

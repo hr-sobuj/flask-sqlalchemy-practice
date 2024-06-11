@@ -1,3 +1,5 @@
+import logging
+
 log_level = logging.DEBUG
 log_file = "app.log"
 log_format = "%(asctime)s - %(levelname)s - %(message)s"

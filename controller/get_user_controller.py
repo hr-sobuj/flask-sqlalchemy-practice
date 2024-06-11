@@ -1,3 +1,7 @@
+from app import app
+from flask import jsonify
+from model.users import User
+
 @app.get("/users")
 def get_users():
     # cached_user=redis_store.get('users')
@@ -24,7 +28,7 @@ def get_users():
             user_list.append(user_data)
 
         response= jsonify({"data": user_list})
-        redis_store.set('users',response,ex=3600)
+        # redis_store.set('users',response,ex=3600)
         return response,200
 
     except Exception as err:

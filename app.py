@@ -5,6 +5,7 @@ from model import model_blp
 from config import config_blp
 from db import db_blp
 from others import other_blp
+from middleware import middleware_blp
 
 
 app = Flask(__name__)
@@ -15,6 +16,7 @@ app.register_blueprint(model_blp)
 app.register_blueprint(config_blp)
 app.register_blueprint(db_blp)
 app.register_blueprint(other_blp)
+app.register_blueprint(middleware_blp)
 
 if __name__ == "__main__":
     app.run(debug=True)

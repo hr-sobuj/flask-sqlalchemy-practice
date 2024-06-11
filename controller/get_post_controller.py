@@ -1,3 +1,8 @@
+from app import app 
+from middleware.login_required import login_required
+from flask import jsonify
+from model.posts_model import Post
+
 @app.get("/posts")
 def get_posts():
     try:
