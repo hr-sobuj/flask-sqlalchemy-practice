@@ -9,11 +9,20 @@ from functools import wraps
 import logging
 import os
 
+from flask_mail import Mail, Message
+
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 app.config["SECRET_KEY"] = "asdfasd"
 app.config["UPLOAD_DIR"] = "uploads"
+
+app.config['MAIL_SERVER']='sandbox.smtp.mailtrap.io'
+app.config['MAIL_PORT'] = 2525
+app.config['MAIL_USERNAME'] = '50491de0a0f354'
+app.config['MAIL_PASSWORD'] = 'fb25de27c801df'
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 
 log_level = logging.DEBUG
 log_file = "app.log"
@@ -25,6 +34,7 @@ logging.basicConfig(
 )
 
 db = SQLAlchemy(app)
+mail=Mail(app)
 
 load_dotenv()
 
@@ -117,11 +127,23 @@ def create_user():
         profile = Profile(bio=bio)
         user.profile = profile
 
+       
+
         db.session.add(user)
         db.session.commit()
 
         if user.id is not None:
-            return jsonify({"message": "User Added Successfully"}), 201
+            subject="Welcome Email!"
+            message_body=f"Hi {name}! Welcome to our website. And Thanks for registration here."
+
+            msg=Message(subject=subject,sender='habibur.rahman@gigalogy.com',recipients=[user.email])
+            msg.body=message_body
+            try:
+                mail.send(msg)
+                return jsonify({"message": "User Added Successfully"}), 201
+            except Exception as e:
+                return jsonify({"Error": f"User creation failed for {e}"}), 500
+            
         else:
             return (
                 jsonify(

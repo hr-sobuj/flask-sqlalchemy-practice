@@ -615,3 +615,44 @@
 2024-06-11 09:36:29,688 - WARNING -  * Debugger is active!
 2024-06-11 09:36:29,689 - INFO -  * Debugger PIN: 561-431-800
 2024-06-11 09:36:32,936 - INFO - 127.0.0.1 - - [11/Jun/2024 09:36:32] "[35m[1mGET /error HTTP/1.1[0m" 500 -
+2024-06-11 10:55:53,094 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:55:53,573 - WARNING -  * Debugger is active!
+2024-06-11 10:55:53,574 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:55:54,583 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:55:54,886 - WARNING -  * Debugger is active!
+2024-06-11 10:55:54,886 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:55:56,899 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:55:57,215 - WARNING -  * Debugger is active!
+2024-06-11 10:55:57,215 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:14,794 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:15,051 - WARNING -  * Debugger is active!
+2024-06-11 10:57:15,052 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:19,077 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:19,326 - WARNING -  * Debugger is active!
+2024-06-11 10:57:19,327 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:23,356 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:23,668 - WARNING -  * Debugger is active!
+2024-06-11 10:57:23,668 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:24,679 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:24,949 - WARNING -  * Debugger is active!
+2024-06-11 10:57:24,949 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:27,979 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:28,239 - WARNING -  * Debugger is active!
+2024-06-11 10:57:28,240 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:29,251 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:29,615 - WARNING -  * Debugger is active!
+2024-06-11 10:57:29,616 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:34,654 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:34,964 - WARNING -  * Debugger is active!
+2024-06-11 10:57:34,965 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:36,980 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 10:57:37,258 - WARNING -  * Debugger is active!
+2024-06-11 10:57:37,258 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 10:57:48,329 - INFO -  * Detected change in '/home/habibur-rahman/Desktop/flask-sqlalchemy/app.py', reloading
+2024-06-11 11:05:48,789 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2024-06-11 11:05:48,789 - INFO - [33mPress CTRL+C to quit[0m
+2024-06-11 11:05:48,790 - INFO -  * Restarting with stat
+2024-06-11 11:05:48,990 - WARNING -  * Debugger is active!
+2024-06-11 11:05:48,990 - INFO -  * Debugger PIN: 561-431-800
+2024-06-11 11:06:00,667 - INFO - 127.0.0.1 - - [11/Jun/2024 11:06:00] "[35m[1mPOST /create-user HTTP/1.1[0m" 201 -
