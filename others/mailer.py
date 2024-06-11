@@ -1,0 +1,1 @@
+mail=Mail(app)

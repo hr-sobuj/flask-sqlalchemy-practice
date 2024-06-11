@@ -1,3 +1,5 @@
+from app import app
+
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 app.config["SECRET_KEY"] = "asdfasd"
 app.config["UPLOAD_DIR"] = "uploads"
