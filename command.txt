@@ -1,1 +1,6 @@
 flask --app app.py --debug run
+
+flask db init
+flask db migrate -m "your_message"
+flask db upgrade
+flask db downgrade
