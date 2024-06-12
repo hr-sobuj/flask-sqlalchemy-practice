@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import request,jsonify
+from flask import request,jsonify,g,current_app
 from ..model.users import User
 import jwt
 
@@ -11,7 +11,7 @@ def login_required(func):
             return jsonify({"message": "Token is missing"}), 401
 
         try:
-            data = jwt.decode(token, app.config["SECRET_KEY"], algorithms=["HS256"])
+            data = jwt.decode(token, current_app.config["SECRET_KEY"], algorithms=["HS256"])
             g.user = User.query.filter_by(email=data["user_email"]).first()
             if not g.user:
                 return jsonify({"message": "User not found"}), 404
