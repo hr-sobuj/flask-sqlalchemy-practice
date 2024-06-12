@@ -1,11 +1,19 @@
 from flask import Flask
 from dotenv import load_dotenv
-from controller.create_user_controller import user_blp
+from .controller import register_blueprints
+from .db.db import db_init
+from .others.mailer import mail_init
+from .config import app_config
 
 app = Flask(__name__)
 load_dotenv()
 
-app.register_blueprint(user_blp)
+
+app.config.from_object(app_config.Config)
+
+register_blueprints(app)
+db_init(app)
+mail_init(app)
 
 if __name__ == "__main__":
     app.run(debug=True)

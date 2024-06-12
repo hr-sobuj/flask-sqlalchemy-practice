@@ -3,13 +3,15 @@ from ..model.users import User
 from ..model.profiles_model import Profile
 import bcrypt
 from ..db.db import db
-from others.mailer import mail
+from ..others.mailer import mail
 from flask_mail import Message
 from sqlalchemy.exc import SQLAlchemyError
-from controller import controller_blp
 user_blp=Blueprint('user',__name__)
 
-@user_blp.post("/create-user")
+bp=Blueprint('create_user',__name__)
+
+
+@bp.post("/create-user")
 def create_user():
     try:
         data = request.json

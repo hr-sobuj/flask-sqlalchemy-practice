@@ -1,4 +1,4 @@
-from db.db import db
+from ..db.db import db
 
 
 class Profile(db.Model):

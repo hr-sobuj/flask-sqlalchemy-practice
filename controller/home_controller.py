@@ -1,5 +1,8 @@
-from app import app
+from flask import Blueprint
 
-@app.route("/")
+bp=Blueprint('home',__name__)
+
+
+@bp.route("/")
 def home():
     return "Homepage"

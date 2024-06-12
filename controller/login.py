@@ -1,10 +1,11 @@
-from app import app 
-from flask import request,jsonify
-from model.users import User
+from flask import request,jsonify,Blueprint
+from ..model.users import User
 import bcrypt,jwt,datetime
 
+bp=Blueprint('login',__name__)
 
-@app.post("/login")
+
+@bp.post("/login")
 def login():
     data = request.json
     email = data.get("email")

@@ -1,9 +1,9 @@
-from app import app 
-from middleware.login_required import login_required
-from flask import jsonify
-from model.posts_model import Post
+from flask import jsonify,Blueprint
+from ..model.posts_model import Post
 
-@app.get("/posts")
+bp=Blueprint('get_post',__name__)
+
+@bp.get("/posts")
 def get_posts():
     try:
         posts = Post.query.all()

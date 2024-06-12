@@ -1,8 +1,9 @@
-from app import app
-from flask import jsonify
-from model.users import User
+from flask import jsonify,Blueprint
+from ..model.users import User
 
-@app.get("/users")
+bp=Blueprint('get_user',__name__)
+
+@bp.get("/users")
 def get_users():
     # cached_user=redis_store.get('users')
     # if cached_user:

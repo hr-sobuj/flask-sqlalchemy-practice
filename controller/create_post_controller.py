@@ -1,11 +1,12 @@
-from app import app 
-from middleware.login_required import login_required
-from flask import request,jsonify
-from model.tags_model import Tag
-from model.posts_model import Post
-from db.db import db
+from ..middleware.login_required import login_required
+from flask import request,jsonify,Blueprint
+from ..model.tags_model import Tag
+from ..model.posts_model import Post
+from ..db.db import db
 
-@app.post("/create-post")
+bp=Blueprint('create_post',__name__)
+
+@bp.post("/create-post")
 @login_required
 def create_post():
     data = request.json
