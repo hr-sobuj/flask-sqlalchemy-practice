@@ -1,11 +1,17 @@
 from marshmallow import Schema, fields
 
+class PostSchema(Schema):
+    id = fields.Int(dump_only=True)
+    title = fields.Str(required=True)
+    description = fields.Str()
+
 class UserSchema(Schema):
     id = fields.Int(dump_only=True)
     name = fields.Str(required=True)
     email = fields.Email(required=True)
     password = fields.Str(load_only=True, required=True)
     profile = fields.Nested('ProfileSchema', dump_only=True)
+    posts=fields.List(fields.Nested(PostSchema),dump_only=True)
 
 class ProfileSchema(Schema):
     bio = fields.Str()
