@@ -8,7 +8,6 @@ from .login import bp as signin
 from .upload_avatar_controller import bp as upload 
 from .create_user_with_schema import bp as create_user_with_schema 
 
-
 blueprints=[
     create_post,
     create_user,
@@ -18,7 +17,7 @@ blueprints=[
     home,
     signin,
     upload,
-    create_user_with_schema
+    create_user_with_schema,
 ]
 
 def register_blueprints(app):

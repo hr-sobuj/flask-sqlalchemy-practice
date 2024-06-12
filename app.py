@@ -14,7 +14,7 @@ app.config.from_object(app_config.Config)
 
 api=Api(app)
 
-register_blueprints(api)
+register_blueprints(app)
 db_init(app)
 mail_init(app)
 
