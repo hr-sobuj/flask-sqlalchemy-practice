@@ -1,5 +1,6 @@
 from ..middleware.login_required import login_required
-from flask import request,jsonify,Blueprint,g
+from flask import request,jsonify,g
+from flask_smorest import Blueprint
 from ..db.db import db
 import datetime
 from .custom_error import custom_error

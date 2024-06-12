@@ -1,4 +1,5 @@
-from flask import request,jsonify,Blueprint
+from flask import request,jsonify
+from flask_smorest import Blueprint
 from ..model.users import User
 import bcrypt,jwt,datetime
 

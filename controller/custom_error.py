@@ -1,4 +1,5 @@
-from flask import jsonify,make_response,Blueprint
+from flask import jsonify,make_response
+from flask_smorest import Blueprint
 
 bp=Blueprint('custom_error',__name__)
 

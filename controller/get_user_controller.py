@@ -1,4 +1,6 @@
-from flask import jsonify,Blueprint
+from flask import jsonify
+from flask_smorest import Blueprint
+
 from ..model.users import User
 
 bp=Blueprint('get_user',__name__)

@@ -1,5 +1,6 @@
 from ..middleware.login_required import login_required
-from flask import request,jsonify,Blueprint
+from flask import request,jsonify
+from flask_smorest import Blueprint
 from ..model.tags_model import Tag
 from ..model.posts_model import Post
 from ..db.db import db

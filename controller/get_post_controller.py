@@ -1,4 +1,6 @@
-from flask import jsonify,Blueprint
+from flask import jsonify
+from flask_smorest import Blueprint
+
 from ..model.posts_model import Post
 
 bp=Blueprint('get_post',__name__)

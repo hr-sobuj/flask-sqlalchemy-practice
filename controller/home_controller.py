@@ -1,4 +1,5 @@
-from flask import Blueprint
+from flask_smorest import Blueprint
+
 
 bp=Blueprint('home',__name__)
 
